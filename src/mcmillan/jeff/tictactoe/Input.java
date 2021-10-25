@@ -32,7 +32,7 @@ public class Input {
 		while (true) {
 			try {
 				System.out.print(prompt);
-				String raw = this.nextLine().trim();
+				String raw = this.nextLine().trim().toLowerCase();
 				if (raw.length() != 2) throw new IllegalArgumentException("Not 2 characters!");
 				char x = raw.charAt(0);
 				try {

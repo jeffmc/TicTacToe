@@ -4,49 +4,45 @@ public class TicTacToe {
 
 	private static Input input;
 	private static Board board;
-	
 	private static final char[] cols = {'a', 'b', 'c'};
 	private static final char[] rows = {'1', '2', '3'};
+	private static State turn;
 	
 	public static void main(String[] args) {
 		input = new Input();
 		board = new Board();
+		turn = State.X;
 		
-		State currentTeam = State.X; // X always starts.
-		
-//		System.out.println(input.readTwoChars("Coordinates: ", cols, rows));
+		while (true) {
+			boolean gameComplete = false;
+			State winner = State.EMPTY;
+			while (!gameComplete) {
+				board.print();
+				System.out.println(turn.toString() + "'s turn!");
+				boolean validMove = false;
+				while (!validMove) {
+					char[] coord = input.readTwoChars("Coordinates: ", cols, rows);
+					validMove = board.attemptMove(turn, coord[0], coord[1]);
+					System.out.println(validMove ? "\n" : coord[0] +""+ coord[1] + " not empty!");
+				}
+				Pair<State, Boolean> status = board.gameStatus();
+				gameComplete = status.snd;
+				winner = status.fst;
+				newTurn();
+			}
+			board.print();
+			System.out.println("GAME OVER! " + winner.getWinner() + " wins!");
+			return; // TODO: Restart game logic.
+		}
+	}
+	
+	public static void newTurn() {
+		if (turn == State.X) {
+			turn = State.O;
+		} else {
+			turn = State.X;
+		}
 	}
 
 	
 }
-
-//	public static char validateChar(final char[] o, char c) {
-//
-//		String r = "";
-//		String txt = "Not ";
-//		if (o.length <= 0) throw new IllegalArgumentException("Char array is length <= 0!");
-//		else if (o.length == 1) txt += "'" + o[0] + "'.";
-//		else if (o.length == 2) txt += "'" + o[0] + "' or '" + o[1] + "'.";
-//		else {
-//			for (int i = 0; i < o.length-1; i++) {
-//				txt += "'" + o[i] + "', ";
-//			}
-//			txt += "or '" + o[o.length-1] + "'.";
-//		};
-//		char c;
-//		while (true) {
-//			try {
-//				r = console.nextLine().toLowerCase();
-//				
-//				if (r.length() == 1) {
-//					c = r.charAt(0);
-//					for (char t : o) {
-//						if (t == c) return t;
-//					}
-//				};
-//				throw new Exception(txt);
-//			} catch (Exception e) {
-//				System.out.print(txt);
-//			}
-//		}
-//	}
