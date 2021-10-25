@@ -8,11 +8,7 @@ public class Board {
 	
 	public Board() {
 		field = new State[size][size];
-		for (int y=0;y<size;y++) {
-			for (int x=0;x<size;x++) {
-				field[x][y] = State.EMPTY;
-			}
-		}
+		clear();
 	}
 	
 	public void print() {
@@ -68,6 +64,14 @@ public class Board {
 			}
 		}
 		return new Pair<State, Boolean>(State.EMPTY, true); // Winner hasn't been found, board is full, game is complete.
+	}
+	
+	public void clear() { // Fills field with EMPTY state.
+		for (int y=0;y<size;y++) {
+			for (int x=0;x<size;x++) {
+				field[x][y] = State.EMPTY;
+			}
+		}
 	}
 	
 	enum XCoord {
